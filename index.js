@@ -161,7 +161,22 @@ _ _`;
       }
 
       await i.deferUpdate();
+// ----------------------------
+// Bot ready + interval message
+// ----------------------------
+client.once("clientReady", () => {
+  console.log(`${client.user.tag} is online!`);
 
+  const channelId = process.env.HIGHERUPS_CHANNEL_ID;
+  if (!channelId) return;
+
+  setInterval(() => {
+    const channel = client.channels.cache.get(channelId);
+    if (!channel) return console.log("Higherups channel not found.");
+
+    channel.send("bigbossdaddyhannie").catch(console.error);
+  }, 30 * 60 * 1000); // every 30 minutes
+});
       // Disable the button globally
       const disabledRow = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
